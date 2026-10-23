@@ -57,3 +57,16 @@ metrics = {
     "coef_std_errors": model.fit().bse.to_dict()
 }
 
+
+# Fitted equation as readable string
+equation_terms = [f"{model.params['const']:.4f}"]  # Intercept
+equation_terms += [f"{model.params[name]:+.4f}*{name}" for name in x_names]
+
+metrics["equation"] = "y = " + " ".join(equation_terms)
+print("\nFitted equation:", metrics["equation"])
+ 
+with open(os.path.join(OUTPUT_PATH, "metrics.json"), "w") as handle:
+    json.dump(metrics, handle, indent=2, default=float)
+ 
+with open(os.path.join(OUTPUT_PATH, "summary.txt"), "w") as handle:
+    handle.write(str(model.summary()))
