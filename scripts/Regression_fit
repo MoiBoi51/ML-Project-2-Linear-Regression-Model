@@ -15,6 +15,8 @@ HEADER = None
 
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
+
+
 # Load data
 data = pd.read_csv(DATA_PATH, header=HEADER)
 n_predictors = data.shape[1] - 1
@@ -26,8 +28,32 @@ print(f"Loaded data from {DATA_PATH}: {data.shape[0]} rows, {n_predictors} predi
 X = data[x_names]
 y = data["y"]
 
+
+
 # Fit Least Squares Regression model
 X_with_const = sm.add_constant(X)  # Add constant term for intercept
 model = sm.OLS(y, X_with_const)
 
 print(model.summary())
+
+
+
+# Metrics
+fitted_values = model.fit().fittedvalues
+residuals = model.resid
+
+metrics = {
+    "dataset_label": DATASET_LABEL,
+    "n_predictors": n_predictors,
+    "R_squared": model.rsquared,
+    "Adjusted_R_squared": model.fit().rsquared_adj,
+    "MSE": np.mean(residuals**2),
+    "RMSE": np.sqrt(np.mean(residuals**2)),
+    "MAE": np.mean(np.abs(residuals)),
+    "resid_std_error": float(np.sqrt(model.scale)),
+    "F_statistic": model.fit().fvalue,
+    "False_positive_rate": model.f_pvalue,
+    "coefficients": model.fit().params.to_dict(),
+    "coef_std_errors": model.fit().bse.to_dict()
+}
+
