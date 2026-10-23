@@ -8,9 +8,9 @@ import statsmodels.api as sm
 
 # file paths
 
-DATA_PATH = "./data/Single_Linear/1_D_H.csv"
-OUTPUT_PATH = "./outputs/1_D_H_results"
-DATASET_LABEL = "1D (High noise)"
+DATA_PATH = "./data/2_Var_Multiple_Linear/2_D_H.csv"
+OUTPUT_PATH = "./outputs/2_D_H_results"
+DATASET_LABEL = "2D (High noise)"
 HEADER = None
 
 os.makedirs(OUTPUT_PATH, exist_ok=True)
