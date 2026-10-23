@@ -15,3 +15,19 @@ HEADER = None
 
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
+# Load data
+data = pd.read_csv(DATA_PATH, header=HEADER)
+n_predictors = data.shape[1] - 1
+x_names = [f"x{i+1}" for i in range(n_predictors)]
+data.columns = x_names + ["y"]
+
+print(f"Loaded data from {DATA_PATH}: {data.shape[0]} rows, {n_predictors} predictor(s)")
+
+X = data[x_names]
+y = data["y"]
+
+# Fit Least Squares Regression model
+X_with_const = sm.add_constant(X)  # Add constant term for intercept
+model = sm.OLS(y, X_with_const)
+
+print(model.summary())
