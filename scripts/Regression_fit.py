@@ -6,6 +6,11 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
+
+# The basis of this code is adapted from the following sources: https://github.com/Statology/Python-Guides.git for the 
+# Simple Linear Regression and Multiple Linear Regression set up. The data path and output path, as well as the 
+# organization of the repository were based on the Project 1 repository: https://github.com/mill0851/Basic_Classification_Model.git
+
 # file paths
 
 DATA_PATH = "./data/3_Var_Multiple_Linear/3_D_H.csv"
@@ -58,6 +63,8 @@ metrics = {
 }
 
 
+
+
 # Fitted equation as readable string
 equation_terms = [f"{model.params['const']:.4f}"]  # Intercept
 equation_terms += [f"{model.params[name]:+.4f}*{name}" for name in x_names]
@@ -98,8 +105,10 @@ else:
     plt.close()
 
 
+
 #Predicted vs actual, residuals vs fitted, Q-Q plot (works at every dimension)
-fig, axes = plt.subplots(1, 3, figsize=(16, 4.8))
+    axes = pd.plotting.scatter_matrix(data, figsize=(9, 9), diagonal="hist")
+    fig, axes = plt.subplots(1, 3, figsize=(16, 4.8))
  
 axes[0].scatter(y, fitted_values)
 lims = [min(y.min(), fitted_values.min()), max(y.max(), fitted_values.max())]
